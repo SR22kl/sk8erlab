@@ -1,0 +1,42 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Nulla esse veniam duis deserunt dolore."
+						}
+					}
+				]
+			},
+			"button": {
+				"key": "121945e5-1323-4c03-b0d7-aaa39a60f8d7",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "http://google.com",
+					"text": "very"
+				}
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "The Skateboard",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

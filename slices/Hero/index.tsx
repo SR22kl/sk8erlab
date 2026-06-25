@@ -1,0 +1,50 @@
+import { FC } from "react";
+import { Content } from "@prismicio/client";
+import {
+  PrismicRichText,
+  PrismicText,
+  SliceComponentProps,
+} from "@prismicio/react";
+import { PrismicNextLink } from "@prismicio/next";
+
+import { Bounded } from "@/components/Bounded";
+import { Heading } from "@/components/Heading";
+import { ButtonLink } from "@/components/ButtonLink";
+
+/**
+ * Props for `Hero`.
+ */
+export type HeroProps = SliceComponentProps<Content.HeroSlice>;
+
+/**
+ * Component for "Hero" Slices.
+ */
+const Hero: FC<HeroProps> = ({ slice }) => {
+  return (
+    <Bounded
+      data-slice-type={slice.slice_type}
+      data-slice-variation={slice.variation}
+      className="bg-brand-teal relative h-dvh overflow-hidden text-zinc-800 bg-texture"
+    >
+      <div className="absolute inset-0 mx-auto mt-24 grid max-w-6xl grid-rows-[1fr_auto] place-items-end px-6 py-[clamp(2.5rem,5vw,4rem)]">
+        <Heading size="lg" className=" relative max-w-5xl place-self-start">
+          <PrismicText field={slice.primary.heading} />
+        </Heading>
+
+        <div className="flex relative w-full flex-col items-center justify-between gap-[clamp(0.5rem,1.5vw,1rem)] lg:flex-row">
+          <div className="max-w-[60ch] font-semibold text-[clamp(1.125rem,2vw,1.25rem)] leading-[clamp(1.75rem,2.5vw,1.875rem)]">
+            <PrismicRichText field={slice.primary.body} />
+          </div>
+
+          <ButtonLink field={slice.primary.button} size="lg" icon="skateboard" className="z-20 mt-2 block">
+            {slice.primary.button.text}
+          </ButtonLink>
+        </div>
+      </div>
+
+      {/* skateboard 3D model */}
+    </Bounded>
+  );
+};
+
+export default Hero;
