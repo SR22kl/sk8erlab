@@ -10,6 +10,8 @@ import { PrismicNextLink } from "@prismicio/next";
 import { Bounded } from "@/components/Bounded";
 import { Heading } from "@/components/Heading";
 import { ButtonLink } from "@/components/ButtonLink";
+import { WideLogo } from "./WideLogo";
+import { TallLogo } from "./TallLogo";
 
 /**
  * Props for `Hero`.
@@ -26,6 +28,11 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       data-slice-variation={slice.variation}
       className="bg-brand-teal relative h-dvh overflow-hidden text-zinc-800 bg-texture"
     >
+      <div className="absolute inset-0 flex items-center pt-20">
+        <WideLogo className="w-full text-brand-red hidden opacity-20 mix-blend-multiply lg:block" />
+        <TallLogo className="w-full text-brand-purple opacity-20 mix-blend-multiply lg:hidden" />
+      </div>
+
       <div className="absolute inset-0 mx-auto mt-24 grid max-w-6xl grid-rows-[1fr_auto] place-items-end px-6 py-[clamp(2.5rem,5vw,4rem)]">
         <Heading size="lg" className=" relative max-w-5xl place-self-start">
           <PrismicText field={slice.primary.heading} />
@@ -36,7 +43,12 @@ const Hero: FC<HeroProps> = ({ slice }) => {
             <PrismicRichText field={slice.primary.body} />
           </div>
 
-          <ButtonLink field={slice.primary.button} size="lg" icon="skateboard" className="z-20 mt-2 block">
+          <ButtonLink
+            field={slice.primary.button}
+            size="lg"
+            icon="skateboard"
+            className="z-20 mt-2 block"
+          >
             {slice.primary.button.text}
           </ButtonLink>
         </div>
