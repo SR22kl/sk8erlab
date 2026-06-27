@@ -69,7 +69,7 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type HomepageDocumentDataSlicesSlice = HeroSlice;
+type HomepageDocumentDataSlicesSlice = ProductGridSlice | HeroSlice;
 
 type HomepageDocumentDataSlices1Slice = never;
 
@@ -147,7 +147,174 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomepageDocument;
+/**
+ * Item in *Settings → Navigation*
+ */
+export interface SettingsDocumentDataNavigationItem {
+  /**
+   * Link field in *Settings → Navigation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[].link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+type SettingsDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+  /**
+   * Site Title field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.site_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  site_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Settings*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.meta_description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Fallback OG Image field in *Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.fallback_og_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  fallback_og_image: prismic.ImageField<never>;
+
+  /**
+   * Navigation field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+
+  /**
+   * `slices` field in *Settings*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<SettingsDocumentDataSlicesSlice>;
+}
+
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SettingsDocumentData>,
+    "settings",
+    Lang
+  >;
+
+/**
+ * Content for Skateboard documents
+ */
+interface SkateboardDocumentData {
+  /**
+   * Name field in *Skateboard*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: skateboard.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * Image field in *Skateboard*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: skateboard.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Price (cents) field in *Skateboard*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: skateboard.price
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  price: prismic.NumberField;
+
+  /**
+   * Customizer Link field in *Skateboard*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: skateboard.customizer_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  customizer_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Skateboard document from Prismic
+ *
+ * - **API ID**: `skateboard`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SkateboardDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<SkateboardDocumentData>,
+    "skateboard",
+    Lang
+  >;
+
+export type AllDocumentTypes =
+  | HomepageDocument
+  | SettingsDocument
+  | SkateboardDocument;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -211,6 +378,95 @@ type HeroSliceVariation = HeroSliceDefault;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Item in *ProductGrid → Default → Primary → Product*
+ */
+export interface ProductGridSliceDefaultPrimaryProductItem {
+  /**
+   * Skateboard field in *ProductGrid → Default → Primary → Product*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_grid.default.primary.product[].skateboard
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  skateboard: ContentRelationshipFieldWithData<
+    [
+      {
+        id: "skateboard";
+        fields: ["name", "image", "price", "customizer_link"];
+      },
+    ]
+  >;
+}
+
+/**
+ * Primary content in *ProductGrid → Default → Primary*
+ */
+export interface ProductGridSliceDefaultPrimary {
+  /**
+   * Heading field in *ProductGrid → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_grid.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *ProductGrid → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_grid.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Product field in *ProductGrid → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: product_grid.default.primary.product[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  product: prismic.GroupField<
+    Simplify<ProductGridSliceDefaultPrimaryProductItem>
+  >;
+}
+
+/**
+ * Default variation for ProductGrid Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductGridSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ProductGridSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ProductGrid*
+ */
+type ProductGridSliceVariation = ProductGridSliceDefault;
+
+/**
+ * ProductGrid Shared Slice
+ *
+ * - **API ID**: `product_grid`
+ * - **Description**: ProductGrid
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductGridSlice = prismic.SharedSlice<
+  "product_grid",
+  ProductGridSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -236,11 +492,22 @@ declare module "@prismicio/client" {
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
       HomepageDocumentDataSlices1Slice,
+      SettingsDocument,
+      SettingsDocumentData,
+      SettingsDocumentDataNavigationItem,
+      SettingsDocumentDataSlicesSlice,
+      SkateboardDocument,
+      SkateboardDocumentData,
       AllDocumentTypes,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      ProductGridSlice,
+      ProductGridSliceDefaultPrimaryProductItem,
+      ProductGridSliceDefaultPrimary,
+      ProductGridSliceVariation,
+      ProductGridSliceDefault,
     };
   }
 }

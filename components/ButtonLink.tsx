@@ -22,7 +22,7 @@ export function ButtonLink({
         "button-cutout group mx-4 inline-flex items-center bg-linear-to-b from-25% to-75% bg-size-[100%_400%] font-bold transition-[filter,background-position] duration-300 hover:bg-bottom",
         size === "sm" && "gap-2.5 py-2 text-base",
         size === "md" &&
-          "gap-3 px-1 text-lg py-[clamp(0.625rem,calc(0.625rem+0.125rem*((100vw-20rem)/44)),0.75rem)]",
+          "gap-3 px-2 text-lg py-[clamp(0.625rem,calc(0.625rem+0.125rem*((100vw-20rem)/44)),0.75rem)]",
         size === "lg" &&
           "text-[clamp(1.125rem,2.5vw,1.5rem)] gap-[clamp(0.75rem,2vw,1rem)] px-[clamp(0.25rem,1vw,0.5rem)] py-[clamp(0.75rem,2vw,1rem)]",
         color === "orange" &&
