@@ -1,6 +1,16 @@
 import { FC } from "react";
 import { Content } from "@prismicio/client";
-import { SliceComponentProps } from "@prismicio/react";
+import {
+  PrismicRichText,
+  PrismicText,
+  SliceComponentProps,
+} from "@prismicio/react";
+import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
+import clsx from "clsx";
+import { Heading } from "@/components/Heading";
+import { Bounded } from "@/components/Bounded";
+import { ButtonLink } from "@/components/ButtonLink";
+import ParallaxImage from "./ParallaxImage";
 
 /**
  * Props for `TextAndImage`.
@@ -11,20 +21,48 @@ export type TextAndImageProps = SliceComponentProps<Content.TextAndImageSlice>;
  * Component for "TextAndImage" Slices.
  */
 const TextAndImage: FC<TextAndImageProps> = ({ slice }) => {
+  const theme = slice.primary.theme;
   return (
-    <section
-      data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-    >
-      Placeholder component for text_and_image (variation: {slice.variation})
-      slices.
-      <br />
-      <strong>You can edit this slice directly in your code editor.</strong>
-      {/**
-       * 💡 Use your own AI agent with the Prismic CLI
-       * 📚 Docs: https://prismic.io/docs/ai#create-slices
-       */}
-    </section>
+    <>
+      <Bounded
+        data-slice-type={slice.slice_type}
+        data-slice-variation={slice.variation}
+        className={clsx(
+          theme === "Blue" && "bg-brand-blue bg-texture text-white",
+          theme === "Orange" && "bg-brand-orange bg-texture text-white",
+          theme === "Navy" && "bg-brand-navy bg-texture text-white",
+          theme === "Lime" && "bg-brand-lime bg-texture text-white",
+        )}
+      >
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-24">
+          <div
+            className={clsx(
+              "flex flex-col items-center gap-8 text-center md:items-start md:text-left",
+              slice.variation === "imageOnLeft" && "md:order-2",
+            )}
+          >
+            <Heading size="lg" as="h2" className={theme === "Lime" ? "text-black" : "text-white"}>
+              <PrismicText field={slice.primary.heading} />
+            </Heading>
+            <div className={`max-w-md text-lg leading-relaxed ${theme === "Lime" ? "text-black" : "text-white"}`}>
+              <PrismicRichText field={slice.primary.body} />
+            </div>
+            <ButtonLink
+              size="sm"
+              field={slice.primary.button}
+              color={theme === "Lime" ? "orange" : "lime"}
+            >
+              {slice.primary.button.text}
+            </ButtonLink>
+          </div>
+
+          <ParallaxImage
+            foregraoundImg={slice.primary.foreground_image}
+            backgroundImg={slice.primary.background_image}
+          />
+        </div>
+      </Bounded>
+    </>
   );
 };
 
