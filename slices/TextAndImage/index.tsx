@@ -20,7 +20,7 @@ export type TextAndImageProps = SliceComponentProps<Content.TextAndImageSlice>;
 /**
  * Component for "TextAndImage" Slices.
  */
-const TextAndImage: FC<TextAndImageProps> = ({ slice }) => {
+const TextAndImage: FC<TextAndImageProps> = ({ slice, index }) => {
   const theme = slice.primary.theme;
   return (
     <>
@@ -28,11 +28,13 @@ const TextAndImage: FC<TextAndImageProps> = ({ slice }) => {
         data-slice-type={slice.slice_type}
         data-slice-variation={slice.variation}
         className={clsx(
+          "sticky top-[calc(var(--index)*2rem)]",
           theme === "Blue" && "bg-brand-blue bg-texture text-white",
           theme === "Orange" && "bg-brand-orange bg-texture text-white",
           theme === "Navy" && "bg-brand-navy bg-texture text-white",
           theme === "Lime" && "bg-brand-lime bg-texture text-white",
         )}
+        style={{ "--index": index } as React.CSSProperties}
       >
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-24">
           <div
@@ -41,10 +43,16 @@ const TextAndImage: FC<TextAndImageProps> = ({ slice }) => {
               slice.variation === "imageOnLeft" && "md:order-2",
             )}
           >
-            <Heading size="lg" as="h2" className={theme === "Lime" ? "text-black" : "text-white"}>
+            <Heading
+              size="lg"
+              as="h2"
+              className={theme === "Lime" ? "text-black" : "text-white"}
+            >
               <PrismicText field={slice.primary.heading} />
             </Heading>
-            <div className={`max-w-md text-lg leading-relaxed ${theme === "Lime" ? "text-black" : "text-white"}`}>
+            <div
+              className={`max-w-md text-lg leading-relaxed ${theme === "Lime" ? "text-black" : "text-white"}`}
+            >
               <PrismicRichText field={slice.primary.body} />
             </div>
             <ButtonLink
