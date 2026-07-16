@@ -167,6 +167,21 @@ export interface SettingsDocumentDataNavigationItem {
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
+/**
+ * Item in *Settings → Footer Skateboards*
+ */
+export interface SettingsDocumentDataFooterSkateboardsItem {
+  /**
+   * Skateboard field in *Settings → Footer Skateboards*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.footer_skateboards[].skateboard
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  skateboard: prismic.ImageField<never>;
+}
+
 type SettingsDocumentDataSlicesSlice = never;
 
 /**
@@ -218,7 +233,31 @@ interface SettingsDocumentData {
   navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
 
   /**
-   * `slices` field in *Settings*
+   * Footer Image field in *Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.footer_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  footer_image: prismic.ImageField<never>;
+
+  /**
+   * Footer Skateboards field in *Settings*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.footer_skateboards[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  footer_skateboards: prismic.GroupField<
+    Simplify<SettingsDocumentDataFooterSkateboardsItem>
+  >;
+
+  /**
+   * Slice Zone field in *Settings*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -844,6 +883,7 @@ declare module "@prismicio/client" {
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataNavigationItem,
+      SettingsDocumentDataFooterSkateboardsItem,
       SettingsDocumentDataSlicesSlice,
       SkateboardDocument,
       SkateboardDocumentData,
