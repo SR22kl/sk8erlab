@@ -30,19 +30,19 @@ const VideoBlock: FC<VideoBlockProps> = ({ slice }) => {
         <div
           className={clsx(
             MASK_CLASSES,
-            "bg-brand-lime absolute inset-0 ~translate-x-2/3 ~translate-y-2/3",
+            "bg-brand-orange absolute inset-0 translate-x-[clamp(0.5rem,0.4rem+0.5vw,0.75rem)] translate-y-[clamp(0.5rem,0.4rem+0.5vw,0.75rem)]",
           )}
         />
         <div
           className={clsx(
             MASK_CLASSES,
-            "bg-white absolute inset-0 ~translate-x-1/3 ~translate-y-1/2",
+            "bg-white absolute inset-0 translate-x-[clamp(0.25rem,0.15rem+0.5vw,0.75rem)] translate-y-[clamp(0.25rem,0.2rem+0.4vw,0.5rem)]",
           )}
         />
         <div
           className={clsx(
             MASK_CLASSES,
-            "bg-white absolute inset-0 ~translate-x-1/2 ~-translate-y-1/3",
+            "bg-brand-lime absolute inset-0 translate-x-[clamp(0.25rem,0.2rem+0.4vw,0.5rem)] -translate-y-[clamp(0.25rem,0.15rem+0.5vw,0.75rem)]",
           )}
         />
 
