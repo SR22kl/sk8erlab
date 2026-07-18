@@ -3,9 +3,10 @@
 import { Skateboard } from "@/components/Skateboard";
 import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
 import { Canvas, ThreeEvent } from "@react-three/fiber";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
+import { Hotspot } from "./Hotspot";
 
 type Props = {
   deckTextureURL: string;
@@ -50,6 +51,12 @@ function Scene({
   const containerRef = useRef<THREE.Group>(null);
   const originRef = useRef<THREE.Group>(null);
 
+  const [showHotspot, setShowHotspot] = useState({
+    front: true,
+    middle: true,
+    back: true,
+  });
+
   function onClick(event: ThreeEvent<MouseEvent>) {
     event.stopPropagation();
 
@@ -59,6 +66,8 @@ function Scene({
     if (!board || !origin) return;
 
     const { name } = event.object;
+
+    setShowHotspot((prev) => ({ ...prev, [name]: false }));
 
     if (name === "back") {
       ollie(board);
@@ -187,14 +196,32 @@ function Scene({
                 boltColor={boltColor}
                 constantWheelSpin
               />
+
+              <Hotspot
+                position={[0, 0.36, 1]}
+                isVisible={showHotspot.front}
+                color="#9f69f0"
+              />
               <mesh position={[0, 0.27, 0.9]} name="front" onClick={onClick}>
                 <boxGeometry args={[0.6, 0.2, 0.58]} />
                 <meshStandardMaterial visible={false} />
               </mesh>
+
+              <Hotspot
+                position={[0, 0.33, 0]}
+                isVisible={showHotspot.middle}
+                color="#1aed41"
+              />
               <mesh position={[0, 0.27, 0]} name="middle" onClick={onClick}>
                 <boxGeometry args={[0.6, 0.1, 1.2]} />
                 <meshStandardMaterial visible={false} />
               </mesh>
+
+              <Hotspot
+                position={[0, 0.31, -0.9]}
+                isVisible={showHotspot.back}
+                color="#0e7fe3"
+              />
               <mesh position={[0, 0.27, -0.9]} name="back" onClick={onClick}>
                 <boxGeometry args={[0.6, 0.2, 0.58]} />
                 <meshStandardMaterial visible={false} />
