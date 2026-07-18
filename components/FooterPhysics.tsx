@@ -4,12 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import {
   Bodies,
   Engine,
+  Events,
   Mouse,
   MouseConstraint,
   Render,
   Runner,
   World,
 } from "matter-js";
+
+import { useMemo } from "react";
 
 type FooterPhysicsProps = {
   boardTextureURLs?: string[]; // Made optional to handle undefined gracefully
@@ -21,7 +24,13 @@ export function FooterPhysics({
   className,
 }: FooterPhysicsProps) {
   const scene = useRef<HTMLDivElement>(null);
-  const engine = useRef(Engine.create());
+
+  const engine = useRef(
+    Engine.create({
+      enableSleeping: true,
+    }),
+  );
+
   const [inView, setInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -40,9 +49,9 @@ export function FooterPhysics({
     };
   }, []);
 
-  const limitedBoardTextures = isMobile
-    ? boardTextureURLs.slice(0, 3)
-    : boardTextureURLs;
+  const limitedBoardTextures = useMemo(() => {
+    return isMobile ? boardTextureURLs.slice(0, 3) : boardTextureURLs;
+  }, [boardTextureURLs, isMobile]);
 
   useEffect(() => {
     const currentScene = scene.current;
@@ -67,12 +76,18 @@ export function FooterPhysics({
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+
     if (prefersReducedMotion) return;
+
+    // ✅ Recreate a fresh engine every time this effect runs
+    engine.current = Engine.create({
+      enableSleeping: true,
+    });
+
+    engine.current.gravity.y = 0.5;
 
     const cw = scene.current.clientWidth;
     const ch = scene.current.clientHeight;
-
-    engine.current.gravity.y = 0.5;
 
     const render = Render.create({
       element: scene.current,
@@ -86,21 +101,43 @@ export function FooterPhysics({
       },
     });
 
+    render.canvas.style.touchAction = "none";
+    render.canvas.style.userSelect = "none";
+    render.canvas.style.cursor = "grab";
+
     let boundaries = createBoundaries(cw, ch);
     World.add(engine.current.world, boundaries);
 
     const mouse = Mouse.create(render.canvas);
-    // @ts-expect-error - matter-js has incorrect types
+
+    // @ts-expect-error
     mouse.element.removeEventListener("wheel", mouse.mousewheel);
+
+    // @ts-expect-error
+    mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+
+    render.mouse = mouse;
 
     const mouseConstraint = MouseConstraint.create(engine.current, {
       mouse,
       constraint: {
-        stiffness: 0.2,
-        render: { visible: false },
+        stiffness: 0.9,
+        damping: 0.1,
+        render: {
+          visible: false,
+        },
       },
     });
+
     World.add(engine.current.world, mouseConstraint);
+
+    Events.on(mouseConstraint, "startdrag", (event) => {
+      console.log("START DRAG", event.name);
+    });
+
+    Events.on(mouseConstraint, "enddrag", (event) => {
+      console.log("END DRAG", event.name);
+    });
 
     window.addEventListener("resize", onResize);
 
@@ -164,11 +201,11 @@ export function FooterPhysics({
       const y = Math.random() * (ch / 2 - 100) + 50;
       const rotation = ((Math.random() * 100 - 50) * Math.PI) / 180;
 
-      return Bodies.rectangle(x, y, 80, 285, {
+      return Bodies.rectangle(x, y, 110, 310, {
         chamfer: { radius: 40 },
         angle: rotation,
-        restitution: 0.8,
-        friction: 0.005,
+        restitution: 0.3,
+        friction: 0.05,
         render: {
           sprite: {
             texture,

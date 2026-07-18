@@ -33,7 +33,7 @@ export async function Footer({}: Props) {
           {/* logo */}
           <FooterPhysics
             boardTextureURLs={boardTextureURLs}
-            className=" absolute inset-0 overflow-hidden"
+            className=" absolute inset-0 overflow-hidden pointer-events-auto"
           />
           <Logo className="pointer-events-none relative h-20 text-brand-lime mix-blend-exclusion md:h-28" />
         </div>

@@ -11,6 +11,7 @@ import { Heading } from "@/components/Heading";
 import { Bounded } from "@/components/Bounded";
 import { ButtonLink } from "@/components/ButtonLink";
 import ParallaxImage from "./ParallaxImage";
+import { SlideIn } from "@/components/SlideIn";
 
 /**
  * Props for `TextAndImage`.
@@ -43,25 +44,33 @@ const TextAndImage: FC<TextAndImageProps> = ({ slice, index }) => {
               slice.variation === "imageOnLeft" && "md:order-2",
             )}
           >
-            <Heading
-              size="lg"
-              as="h2"
-              className={theme === "Lime" ? "text-black" : "text-white"}
-            >
-              <PrismicText field={slice.primary.heading} />
-            </Heading>
-            <div
-              className={`max-w-md text-lg leading-relaxed ${theme === "Lime" ? "text-black" : "text-white"}`}
-            >
-              <PrismicRichText field={slice.primary.body} />
-            </div>
-            <ButtonLink
-              size="sm"
-              field={slice.primary.button}
-              color={theme === "Lime" ? "orange" : "lime"}
-            >
-              {slice.primary.button.text}
-            </ButtonLink>
+            <SlideIn>
+              <Heading
+                size="lg"
+                as="h2"
+                className={theme === "Lime" ? "text-black" : "text-white"}
+              >
+                <PrismicText field={slice.primary.heading} />
+              </Heading>
+            </SlideIn>
+
+            <SlideIn>
+              <div
+                className={`max-w-md text-lg leading-relaxed ${theme === "Lime" ? "text-black" : "text-white"}`}
+              >
+                <PrismicRichText field={slice.primary.body} />
+              </div>
+            </SlideIn>
+
+            <SlideIn>
+              <ButtonLink
+                size="sm"
+                field={slice.primary.button}
+                color={theme === "Lime" ? "orange" : "lime"}
+              >
+                {slice.primary.button.text}
+              </ButtonLink>
+            </SlideIn>
           </div>
 
           <ParallaxImage
