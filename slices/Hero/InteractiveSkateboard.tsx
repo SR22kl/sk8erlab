@@ -1,12 +1,18 @@
 "use client";
 
 import { Skateboard } from "@/components/Skateboard";
-import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
-import { Canvas, ThreeEvent } from "@react-three/fiber";
-import { Suspense, useRef, useState } from "react";
+import {
+  ContactShadows,
+  Environment,
+  Html,
+  OrbitControls,
+} from "@react-three/drei";
+import { Canvas, ThreeEvent, useThree } from "@react-three/fiber";
+import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { Hotspot } from "./Hotspot";
+import { WavyPaths } from "./WavyPaths";
 
 type Props = {
   deckTextureURL: string;
@@ -14,6 +20,8 @@ type Props = {
   truckColor: string;
   boltColor: string;
 };
+
+const INITIAL_CAMERA_POSITION = [1.5, 1, 1.4] as const;
 
 export function InteractiveSkateboard({
   deckTextureURL,
@@ -26,7 +34,7 @@ export function InteractiveSkateboard({
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <Canvas
           className="min-h-240 w-full"
-          camera={{ position: [1.5, 1, 1.5], fov: 75 }}
+          camera={{ position: [1.5, 1, 1.4], fov: 75 }}
         >
           <Suspense>
             <Scene
@@ -51,11 +59,58 @@ function Scene({
   const containerRef = useRef<THREE.Group>(null);
   const originRef = useRef<THREE.Group>(null);
 
+  const [animating, setAnimating] = useState(false);
   const [showHotspot, setShowHotspot] = useState({
     front: true,
     middle: true,
     back: true,
   });
+
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (!containerRef.current || !originRef.current) return;
+
+    gsap.to(containerRef.current.position, {
+      x: 0.2,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+
+    gsap.to(originRef.current.rotation, {
+      y: Math.PI / 64,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }, []);
+
+  useEffect(() => {
+    camera.lookAt(new THREE.Vector3(-0.2, 0.15, 0));
+
+    function setZoom() {
+      const scale = Math.max(Math.min(1000 / window.innerWidth, 2.2), 1);
+
+      camera.position.set(
+        INITIAL_CAMERA_POSITION[0] * scale,
+        INITIAL_CAMERA_POSITION[1] * scale,
+        INITIAL_CAMERA_POSITION[2] * scale,
+      );
+
+      camera.updateProjectionMatrix();
+    }
+
+    setZoom(); // Run once initially
+
+    window.addEventListener("resize", setZoom);
+
+    return () => {
+      window.removeEventListener("resize", setZoom);
+    };
+  }, [camera]);
 
   function onClick(event: ThreeEvent<MouseEvent>) {
     event.stopPropagation();
@@ -63,7 +118,7 @@ function Scene({
     const board = containerRef.current;
     const origin = originRef.current;
 
-    if (!board || !origin) return;
+    if (!board || !origin || animating) return;
 
     const { name } = event.object;
 
@@ -165,8 +220,9 @@ function Scene({
   }
 
   function jumpBoard(board: THREE.Group) {
+    setAnimating(true);
     gsap
-      .timeline()
+      .timeline({ onComplete: () => setAnimating(false) })
       .to(board.position, {
         y: 0.8,
         duration: 0.51,
@@ -182,7 +238,7 @@ function Scene({
   return (
     <>
       <group>
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         <Environment files={"/hdr/warehouse-256.hdr"} />
         <group ref={originRef}>
           <group ref={containerRef} position={[-0.25, 0, -0.635]}>
@@ -199,7 +255,7 @@ function Scene({
 
               <Hotspot
                 position={[0, 0.36, 1]}
-                isVisible={showHotspot.front}
+                isVisible={!animating && showHotspot.front}
                 color="#9f69f0"
               />
               <mesh position={[0, 0.27, 0.9]} name="front" onClick={onClick}>
@@ -209,7 +265,7 @@ function Scene({
 
               <Hotspot
                 position={[0, 0.33, 0]}
-                isVisible={showHotspot.middle}
+                isVisible={!animating && showHotspot.middle}
                 color="#1aed41"
               />
               <mesh position={[0, 0.27, 0]} name="middle" onClick={onClick}>
@@ -219,7 +275,7 @@ function Scene({
 
               <Hotspot
                 position={[0, 0.31, -0.9]}
-                isVisible={showHotspot.back}
+                isVisible={!animating && showHotspot.back}
                 color="#0e7fe3"
               />
               <mesh position={[0, 0.27, -0.9]} name="back" onClick={onClick}>
@@ -229,7 +285,21 @@ function Scene({
             </group>
           </group>
         </group>
-        <ContactShadows position={[0, -0.1, 0]} scale={10} opacity={0.6} />
+        <ContactShadows position={[0, -0.08, 0]} opacity={0.6} />
+        <group
+          rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
+          position={[0, -0.09, -0.5]}
+          scale={[0.2, 0.2, 0.2]}
+        >
+          <Html
+            wrapperClass="pointer-events-none"
+            transform
+            zIndexRange={[1, 0]}
+            occlude="blending"
+          >
+            <WavyPaths />
+          </Html>
+        </group>
       </group>
     </>
   );
