@@ -34,7 +34,7 @@ const stats = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-brand-cream bg-texture text-brand-black">
+    <main className="min-h-screen bg-brand-lime bg-texture text-brand-black">
       <section className="overflow-hidden bg-transparent">
         <Bounded className="relative">
           <div className="relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
@@ -66,7 +66,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="group border-4 border-brand-black bg-brand-lime p-6 shadow-[12px_12px_0_0_#111111] transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[16px_16px_0_0_#111111] sm:p-8">
+            <div className="group bg-brand-orange p-6 button-cutout transition-all duration-300 sm:p-8">
               <div className="mb-6 flex items-center justify-between gap-3">
                 <p className="font-heading text-sm uppercase tracking-[0.2em] text-brand-purple">
                   Studio note
@@ -90,11 +90,11 @@ export default function AboutPage() {
       </section>
 
       <Bounded className="pt-0">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-12 md:grid-cols-3 ">
           {values.map((value) => (
             <article
               key={value.title}
-              className="border-4 border-brand-black bg-brand-white p-6 shadow-[8px_8px_0_0_#111111] transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[12px_12px_0_0_#111111]"
+              className="border-brand-black bg-brand-white p-6 button-cutout transition-all duration-300 hover:-translate-y-1 hover:translate-x-1"
             >
               <p className="font-heading text-sm uppercase tracking-[0.25em] text-brand-blue">
                 {value.title}
@@ -108,8 +108,8 @@ export default function AboutPage() {
       </Bounded>
 
       <Bounded className="pt-0">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="border-4 border-brand-black bg-brand-white p-8 shadow-[10px_10px_0_0_#111111] transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[14px_14px_0_0_#111111]">
+        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="bg-brand-white p-8 button-cutout transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 ">
             <p className="font-heading text-sm uppercase tracking-[0.25em] text-brand-orange">
               The mindset
             </p>
@@ -145,7 +145,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden border-4 border-brand-black bg-brand-pink p-8 shadow-[10px_10px_0_0_#111111] transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[14px_14px_0_0_#111111]">
+          <div className="bg-brand-pink p-8 button-cutout transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 ">
             <div className="absolute left-0 top-0 h-full w-20 bg-brand-yellow/50" />
             <div className="relative z-10 flex h-full flex-col justify-between gap-6">
               <div>
@@ -178,7 +178,7 @@ export default function AboutPage() {
       </Bounded>
 
       <Bounded className="pt-0">
-        <div className="border-4 border-brand-black bg-brand-yellow p-8 shadow-[10px_10px_0_0_#111111] transition-all duration-300 hover:-translate-y-1 hover:translate-x-1 hover:shadow-[14px_14px_0_0_#111111] sm:p-10">
+        <div className="bg-brand-yellow p-8 button-cutout transition-all duration-300 hover:-translate-y-1 hover:translate-x-1  sm:p-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="font-heading text-sm uppercase tracking-[0.25em] text-brand-purple">
