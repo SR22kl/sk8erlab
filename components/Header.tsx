@@ -17,7 +17,7 @@ export default async function Header() {
               alt="hero"
               className="h-[clamp(5rem,5vw,5rem)] w-auto"
             /> */}
-            <Logo className="text-brand-lime h-[clamp(3rem,2.333rem+3.333vw,5rem)]" />
+            <Logo className="text-brand-purple h-[clamp(3rem,2.333rem+3.333vw,5rem)]" />
           </Link>
           <nav
             aria-label="Main"

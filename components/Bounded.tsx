@@ -1,11 +1,11 @@
-import { CSSProperties, ElementType, ReactNode } from "react";
+import { ReactNode } from "react";
 import clsx from "clsx";
 
 type BoundedProps = {
-  as?: ElementType;
+  as?: string;
   className?: string;
-  style?: CSSProperties;
   children: ReactNode;
+  [key: string]: unknown;
 };
 
 export function Bounded({
@@ -14,8 +14,10 @@ export function Bounded({
   children,
   ...restProps
 }: BoundedProps) {
+  const Component = Comp as any;
+
   return (
-    <Comp
+    <Component
       className={clsx(
         "px-6 py-[clamp(4rem,8vw,8rem)] [.header+&]:pt-44 [.header+&]:md:pt-32",
         className,
@@ -23,6 +25,6 @@ export function Bounded({
       {...restProps}
     >
       <div className="mx-auto w-full max-w-6xl">{children}</div>
-    </Comp>
+    </Component>
   );
 }

@@ -2,7 +2,6 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { Heading } from "@/components/Heading";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
-import React from "react";
 import { CustomizerControlsProvider } from "./context";
 import { createClient } from "@/prismicio";
 import Preview from "./Preview";
