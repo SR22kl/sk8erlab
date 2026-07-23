@@ -35,7 +35,12 @@ export async function Footer({}: Props) {
             boardTextureURLs={boardTextureURLs}
             className=" absolute inset-0 overflow-hidden pointer-events-auto"
           />
-          <Logo className="pointer-events-none relative h-20 text-brand-lime mix-blend-exclusion md:h-28" />
+          <img
+              src={"/S8logo.png"}
+              alt="hero"
+              className="h-[clamp(5rem,5vw,5rem)] md:h-28 w-auto pointer-events-none relative mix-blend-exclusion"
+            />
+          {/* <Logo className="pointer-events-none relative h-20 text-brand-lime mix-blend-exclusion md:h-28" /> */}
         </div>
 
         <Bounded as={"nav"}>

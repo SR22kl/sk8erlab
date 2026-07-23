@@ -12,16 +12,16 @@ export default async function Header() {
       <header className="header absolute left-0 right-0 top-0 z-50  h-[clamp(8rem,12vw,12rem)] px-[clamp(1rem,2vw,1.5rem)] py-[clamp(1rem,2vw,1.5rem)] hd:h-32">
         <div className="mx-auto grid w-full max-w-6xl md:grid-cols-[1fr_auto_1fr] grid-cols-[1fr_auto] items-center gap-5">
           <Link href="/" className="justify-self-start">
-            {/* <img
+            <img
               src={"/S8logo.png"}
               alt="hero"
-              className="h-[clamp(5rem,5vw,5rem)] w-auto"
-            /> */}
-            <Logo className="text-brand-purple h-[clamp(3rem,2.333rem+3.333vw,5rem)]" />
+              className="h-[clamp(5rem,5vw,5rem)] md:h-28 w-auto"
+            />
+            {/* <Logo className="text-brand-purple h-[clamp(3rem,2.333rem+3.333vw,5rem)]" /> */}
           </Link>
           <nav
             aria-label="Main"
-            className="col-span-full row-start-2 md:col-span-1 md:col-start-2 md:row-start-1"
+            className="col-span-full row-start-2 md:col-span-1 md:col-start-2 md:row-start-1 -mt-8"
           >
             <ul className="flex flex-wrap items-center justify-center gap-8">
               {settings.data.navigation.map((item) => (
