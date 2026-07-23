@@ -58,7 +58,12 @@ export default async function Page(props: {
               />
             </div>
             <Link href={"/"} className="absolute left-6 top-6">
-              <Logo className="text-brand-orange h-[clamp(3rem,2.333rem+3.333vw,5rem)]" />
+              <img
+                src={"/S8logo.png"}
+                alt="hero"
+                className="h-[clamp(5rem,5vw,5rem)] md:h-28 w-auto opacity-80"
+              />
+              {/* <Logo className="text-brand-orange h-[clamp(3rem,2.333rem+3.333vw,5rem)]" /> */}
             </Link>
           </div>
           <div className="grow bg-texture bg-zinc-900 text-white p-[clamp(1rem,0.5rem+1.25vw,1.5rem)] lg:w-96 lg:shrink-0 lg:grow-0">
